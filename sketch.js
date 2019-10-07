@@ -3,6 +3,7 @@ const CONTROL_HEIGHT = 20;
 const TILE_WIDTH = 20;
 const DRAW_FRAMERATE = false;
 const DEFAULT_ALGO = "mergeSort";
+const GITHUB_URL = "https://github.com/khoi/sorting-visualization";
 
 const SORT_CLASSES = {
   bubble: bubbleSort,
@@ -23,13 +24,14 @@ let sortersFinished;
 let capturer = new CCapture({ format: "png", framerate: FRAME_RATE });
 let isRecording = false;
 let sel;
+let sourceCodeButton;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   colorMode(HSL, 360, 100, 100);
   frameRate(FRAME_RATE);
 
-  setupInput(DEFAULT_ALGO);
+  setupUI(DEFAULT_ALGO);
 
   N = Math.floor(width / TILE_WIDTH);
   M = Math.floor(height / TILE_WIDTH);
@@ -44,7 +46,7 @@ function setup() {
   textAlign(RIGHT);
 }
 
-function setupInput(initialValue) {
+function setupUI(initialValue) {
   sel = createSelect();
   sel.position(10, 10);
   Object.keys(SORT_CLASSES).forEach(k => {
@@ -52,6 +54,14 @@ function setupInput(initialValue) {
   });
   sel.value(initialValue);
   sel.changed(() => startSorting(sel.value()));
+
+  sourceCodeButton = createButton("Learn More");
+  sourceCodeButton.position(sel.elt.offsetWidth + 16, 10);
+  sourceCodeButton.mousePressed(redirectToGithub);
+}
+
+function redirectToGithub() {
+  window.open(GITHUB_URL, "_blank");
 }
 
 function startSorting(algorithm) {
