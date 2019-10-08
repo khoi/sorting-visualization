@@ -12,7 +12,8 @@ const SORT_CLASSES = {
   "quickSort (hoare)": quickSortHoare,
   "quickSort (lomuto)": quickSortLomuto,
   bogoSort: bogoSort,
-  mergeSort: mergeSort
+  mergeSort: mergeSort,
+  heapSort: heapSort
 };
 
 let N;
