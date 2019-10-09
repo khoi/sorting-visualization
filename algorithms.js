@@ -159,43 +159,29 @@ function* bogoSort(values) {
   }
 }
 
-function* heapSort(array) {
-  yield* buildMaxHeap(array);
-  let lastElement = array.length - 1;
-  while (lastElement > 0) {
-    swap(array, 0, lastElement);
+function* heapSort(arr) {
+  for (let i = arr.length; i >= 0; i--) {
+    yield* heapify(arr, arr.length, i);
+  }
+
+  for (let i = arr.length - 1; i > 0; i--) {
+    swap(arr, i, 0);
     yield;
-    yield* heapify(array, 0, lastElement);
-    lastElement -= 1;
+    yield* heapify(arr, i, 0);
   }
 }
 
-function* buildMaxHeap(array) {
-  let i = Math.floor(array.length / 2 - 1);
-  while (i >= 0) {
-    yield* heapify(array, i, array.length);
-    i -= 1;
-  }
-}
+function* heapify(arr, n, i) {
+  let largest = i;
+  const left = 2 * i + 1;
+  const right = 2 * i + 2;
 
-function* heapify(heap, i, max) {
-  var index, leftChild, righChild;
-  while (i < max) {
-    index = i;
-    leftChild = 2 * i + 1;
-    righChild = leftChild + 1;
-    if (leftChild < max && heap[leftChild] > heap[index]) {
-      index = leftChild;
-    }
-    if (righChild < max && heap[righChild] > heap[index]) {
-      index = righChild;
-    }
-    if (index == i) {
-      return;
-    }
-    swap(heap, i, index);
-    i = index;
+  if (left < n && arr[largest] < arr[left]) largest = left;
+  if (right < n && arr[largest] < arr[right]) largest = right;
+  if (largest != i) {
+    swap(arr, i, largest);
     yield;
+    yield* heapify(arr, n, largest);
   }
 }
 
