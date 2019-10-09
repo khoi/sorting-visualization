@@ -224,6 +224,7 @@ function* shellSort(values) {
       let j = i;
       for (j = i; j >= gap && values[j - gap] > tmp; j -= gap) {
         values[j] = values[j - gap];
+        yield;
       }
       values[j] = tmp;
       yield;
