@@ -3,7 +3,7 @@ function* bubbleSort(values) {
   for (let i = 0; i < values.length; i++) {
     for (let j = 0; j < values.length - i - 1; j++) {
       if (values[j] > values[j + 1]) {
-        [values[j], values[j + 1]] = [values[j + 1], values[j]];
+        swap(values, j, j + 1);
         swapped = true;
       }
       yield;
@@ -37,7 +37,7 @@ function* selectionSort(values) {
         minIdx = j;
       }
     }
-    [values[i], values[minIdx]] = [values[minIdx], values[i]];
+    swap(values, i, minIdx);
     yield;
   }
 }
@@ -68,12 +68,11 @@ function* _partitionLomuto(values, left, right) {
   let i = left - 1;
   for (let j = left; j < right; j++) {
     if (values[j] < pivot) {
-      i++;
-      [values[i], values[j]] = [values[j], values[i]];
+      swap(values, ++i, j);
       yield;
     }
   }
-  [values[i + 1], values[right]] = [values[right], values[i + 1]];
+  swap(values, i + 1, right);
   yield;
   return i + 1;
 }
@@ -106,9 +105,7 @@ function* _partitionHoare(values, left, right) {
     while (values[left] < pivot) left++;
     while (values[right] > pivot) right--;
     if (left >= right) return right;
-    [values[left], values[right]] = [values[right], values[left]];
-    left++;
-    right--;
+    swap(values, left++, right--);
     yield;
   }
 }
@@ -165,17 +162,16 @@ function* bogoSort(values) {
 function* heapSort(array) {
   yield* buildMaxHeap(array);
   let lastElement = array.length - 1;
-  while(lastElement > 0) {
-    yield* swap(array, 0, lastElement);
+  while (lastElement > 0) {
+    swap(array, 0, lastElement);
+    yield;
     yield* heapify(array, 0, lastElement);
-    lastElement -= 1
+    lastElement -= 1;
   }
 }
 
 function* buildMaxHeap(array) {
-  let i;
-  i = array.length / 2 - 1;
-  i = Math.floor(i);
+  let i = Math.floor(array.length / 2 - 1);
   while (i >= 0) {
     yield* heapify(array, i, array.length);
     i -= 1;
@@ -184,29 +180,27 @@ function* buildMaxHeap(array) {
 
 function* heapify(heap, i, max) {
   var index, leftChild, righChild;
-  while(i < max) {
+  while (i < max) {
     index = i;
-    leftChild = 2*i + 1;
+    leftChild = 2 * i + 1;
     righChild = leftChild + 1;
     if (leftChild < max && heap[leftChild] > heap[index]) {
       index = leftChild;
     }
     if (righChild < max && heap[righChild] > heap[index]) {
       index = righChild;
-    } 
+    }
     if (index == i) {
       return;
     }
-    yield* swap(heap,i, index);
+    swap(heap, i, index);
     i = index;
+    yield;
   }
 }
 
-function* swap(array, firstItemIndex, lastItemInde) {
-  let tmp = array[firstItemIndex];
-  array[firstItemIndex] = array[lastItemInde];
-  array[lastItemInde] = tmp;
-  yield;
+function swap(array, firstIdx, secondIdx) {
+  [array[firstIdx], array[secondIdx]] = [array[secondIdx], array[firstIdx]];
 }
 
 function isSorted(values) {
