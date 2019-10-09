@@ -13,7 +13,8 @@ const SORT_CLASSES = {
   "quickSort (lomuto)": quickSortLomuto,
   bogoSort: bogoSort,
   mergeSort: mergeSort,
-  heapSort: heapSort
+  heapSort: heapSort,
+  shellSort: shellSort
 };
 
 let N;

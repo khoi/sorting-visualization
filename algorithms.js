@@ -215,3 +215,21 @@ function isSorted(values) {
   }
   return true;
 }
+
+function* shellSort(values) {
+  let n = Math.floor(values.length)
+  let gap = Math.floor(n / 2);
+  while (gap > 0) {
+    for (let i = gap; i < n; i++) {
+      let tmp = values[i];
+      let j = i;
+      while (j >= gap && values[j - gap] > tmp) {
+        values[j] = values[j - gap];
+        j -= gap ;
+      }
+      values[j] = tmp;
+      yield;
+    }
+    gap = Math.floor(gap / 2);
+  }
+}
