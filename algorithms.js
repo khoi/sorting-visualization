@@ -217,19 +217,16 @@ function isSorted(values) {
 }
 
 function* shellSort(values) {
-  let n = Math.floor(values.length)
-  let gap = Math.floor(n / 2);
-  while (gap > 0) {
+  let n = values.length;
+  for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
     for (let i = gap; i < n; i++) {
       let tmp = values[i];
       let j = i;
-      while (j >= gap && values[j - gap] > tmp) {
+      for (j = i; j >= gap && values[j - gap] > tmp; j -= gap) {
         values[j] = values[j - gap];
-        j -= gap ;
       }
       values[j] = tmp;
       yield;
     }
-    gap = Math.floor(gap / 2);
   }
 }
