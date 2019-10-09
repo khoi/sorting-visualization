@@ -3,6 +3,7 @@
 [![@khoiracle](https://img.shields.io/badge/contact-@khoiracle-4bbee3.svg?style=flat)](https://twitter.com/khoiracle)
 
 Interactive site: https://sort.khoi.io
+
 Pre-rendered GIFs: https://imgur.com/a/VQxl1ol
 
 # Inspiration
