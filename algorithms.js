@@ -209,6 +209,30 @@ function* swap(array, firstItemIndex, lastItemInde) {
   yield;
 }
 
+const getNextGap = gap => { 
+  gap = (gap*10)/13; 
+  if (gap < 1) 
+      return 1; 
+  return gap; 
+} 
+
+function* combSort(a) {
+  let n = a.length;
+  let gap = n; 
+  let swapped = true; 
+  while (gap !== 1 || swapped === true) { 
+      gap = getNextGap(gap); 
+      swapped = false; 
+      for (let i=0; i<n-gap; i++) { 
+          if (a[i] > a[i+gap]) { 
+              [a[i], a[i+gap]] = [a[i+gap], a[i]]
+              yield;
+              swapped = true; 
+          } 
+      } 
+  }
+} 
+
 function isSorted(values) {
   for (let i = 0; i < values.length - 1; i++) {
     if (values[i] > values[i + 1]) return false;
