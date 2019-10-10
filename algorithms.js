@@ -162,53 +162,6 @@ function* bogoSort(values) {
   }
 }
 
-function* heapSort(array) {
-  yield* buildMaxHeap(array);
-  let lastElement = array.length - 1;
-  while(lastElement > 0) {
-    yield* swap(array, 0, lastElement);
-    yield* heapify(array, 0, lastElement);
-    lastElement -= 1
-  }
-}
-
-function* buildMaxHeap(array) {
-  let i;
-  i = array.length / 2 - 1;
-  i = Math.floor(i);
-  while (i >= 0) {
-    yield* heapify(array, i, array.length);
-    i -= 1;
-  }
-}
-
-function* heapify(heap, i, max) {
-  var index, leftChild, righChild;
-  while(i < max) {
-    index = i;
-    leftChild = 2*i + 1;
-    righChild = leftChild + 1;
-    if (leftChild < max && heap[leftChild] > heap[index]) {
-      index = leftChild;
-    }
-    if (righChild < max && heap[righChild] > heap[index]) {
-      index = righChild;
-    } 
-    if (index == i) {
-      return;
-    }
-    yield* swap(heap,i, index);
-    i = index;
-  }
-}
-
-function* swap(array, firstItemIndex, lastItemInde) {
-  let tmp = array[firstItemIndex];
-  array[firstItemIndex] = array[lastItemInde];
-  array[lastItemInde] = tmp;
-  yield;
-}
-
 const getNextGap = gap => { 
   gap = (gap*10)/13; 
   if (gap < 1) 
