@@ -3,7 +3,7 @@ function* bubbleSort(values) {
   for (let i = 0; i < values.length; i++) {
     for (let j = 0; j < values.length - i - 1; j++) {
       if (values[j] > values[j + 1]) {
-        [values[j], values[j + 1]] = [values[j + 1], values[j]];
+        swap(values, j, j + 1);
         swapped = true;
       }
       yield;
@@ -37,7 +37,7 @@ function* selectionSort(values) {
         minIdx = j;
       }
     }
-    [values[i], values[minIdx]] = [values[minIdx], values[i]];
+    swap(values, i, minIdx);
     yield;
   }
 }
@@ -68,12 +68,11 @@ function* _partitionLomuto(values, left, right) {
   let i = left - 1;
   for (let j = left; j < right; j++) {
     if (values[j] < pivot) {
-      i++;
-      [values[i], values[j]] = [values[j], values[i]];
+      swap(values, ++i, j);
       yield;
     }
   }
-  [values[i + 1], values[right]] = [values[right], values[i + 1]];
+  swap(values, i + 1, right);
   yield;
   return i + 1;
 }
@@ -106,9 +105,7 @@ function* _partitionHoare(values, left, right) {
     while (values[left] < pivot) left++;
     while (values[right] > pivot) right--;
     if (left >= right) return right;
-    [values[left], values[right]] = [values[right], values[left]];
-    left++;
-    right--;
+    swap(values, left++, right--);
     yield;
   }
 }
@@ -162,33 +159,78 @@ function* bogoSort(values) {
   }
 }
 
-const getNextGap = gap => { 
-  gap = (gap*10)/13; 
-  if (gap < 1) 
-      return 1; 
-  return gap; 
-} 
+function* heapSort(arr) {
+  for (let i = arr.length; i >= 0; i--) {
+    yield* heapify(arr, arr.length, i);
+  }
+
+  for (let i = arr.length - 1; i > 0; i--) {
+    swap(arr, i, 0);
+    yield;
+    yield* heapify(arr, i, 0);
+  }
+}
+
+function* heapify(arr, n, i) {
+  let largest = i;
+  const left = 2 * i + 1;
+  const right = 2 * i + 2;
+
+  if (left < n && arr[largest] < arr[left]) largest = left;
+  if (right < n && arr[largest] < arr[right]) largest = right;
+  if (largest != i) {
+    swap(arr, i, largest);
+    yield;
+    yield* heapify(arr, n, largest);
+  }
+}
+
+function swap(array, firstIdx, secondIdx) {
+  [array[firstIdx], array[secondIdx]] = [array[secondIdx], array[firstIdx]];
+}
+
+const getNextGap = gap => {
+  let nextGap = (gap * 10) / 13;
+  if (nextGap < 1) return 1;
+  return nextGap;
+};
 
 function* combSort(a) {
   let n = a.length;
-  let gap = n; 
-  let swapped = true; 
-  while (gap !== 1 || swapped === true) { 
-      gap = getNextGap(gap); 
-      swapped = false; 
-      for (let i=0; i<n-gap; i++) { 
-          if (a[i] > a[i+gap]) { 
-              [a[i], a[i+gap]] = [a[i+gap], a[i]]
-              yield;
-              swapped = true; 
-          } 
-      } 
+  let gap = n;
+  let swapped = true;
+  while (gap !== 1 || swapped) {
+    gap = getNextGap(gap);
+    swapped = false;
+    for (let i = 0; i < n - gap; i++) {
+      if (a[i] > a[i + gap]) {
+        [a[i], a[i + gap]] = [a[i + gap], a[i]];
+        yield;
+        swapped = true;
+      }
+    }
   }
-} 
+}
 
 function isSorted(values) {
   for (let i = 0; i < values.length - 1; i++) {
     if (values[i] > values[i + 1]) return false;
   }
   return true;
+}
+
+function* shellSort(values) {
+  let n = values.length;
+  for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+    for (let i = gap; i < n; i++) {
+      let tmp = values[i];
+      let j = i;
+      for (j = i; j >= gap && values[j - gap] > tmp; j -= gap) {
+        values[j] = values[j - gap];
+        yield;
+      }
+      values[j] = tmp;
+      yield;
+    }
+  }
 }
