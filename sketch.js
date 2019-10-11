@@ -2,20 +2,21 @@ const FRAME_RATE = 60;
 const CONTROL_HEIGHT = 20;
 const TILE_WIDTH = 20;
 const DRAW_FRAMERATE = false;
-const DEFAULT_ALGO = "mergeSort";
-const GITHUB_URL = "https://github.com/khoi/sorting-visualization";
+const DEFAULT_ALGO = 'mergeSort';
+const GITHUB_URL = 'https://github.com/khoi/sorting-visualization';
 
 const SORT_CLASSES = {
   bubble: bubbleSort,
   insertion: insertionSort,
   selection: selectionSort,
-  "quickSort (hoare)": quickSortHoare,
-  "quickSort (lomuto)": quickSortLomuto,
+  'quickSort (hoare)': quickSortHoare,
+  'quickSort (lomuto)': quickSortLomuto,
   bogoSort: bogoSort,
   mergeSort: mergeSort,
   heapSort: heapSort,
   shellSort: shellSort,
-  combSort: combSort
+  'radixSort (LSD)': radixSortLSD,
+  combSort: combSort,
 };
 
 let N;
@@ -24,7 +25,7 @@ let M;
 let values;
 let sorters;
 let sortersFinished;
-let capturer = new CCapture({ format: "png", framerate: FRAME_RATE });
+let capturer = new CCapture({ format: 'png', framerate: FRAME_RATE });
 let isRecording = false;
 let sel;
 let sourceCodeButton;
@@ -58,13 +59,13 @@ function setupUI(initialValue) {
   sel.value(initialValue);
   sel.changed(() => startSorting(sel.value()));
 
-  sourceCodeButton = createButton("Learn More");
+  sourceCodeButton = createButton('Learn More');
   sourceCodeButton.position(sel.elt.offsetWidth + 16, 10);
   sourceCodeButton.mousePressed(redirectToGithub);
 }
 
 function redirectToGithub() {
-  window.open(GITHUB_URL, "_blank");
+  window.open(GITHUB_URL, '_blank');
 }
 
 function startSorting(algorithm) {
@@ -98,7 +99,7 @@ function draw() {
   }
 
   if (isRecording) {
-    capturer.capture(document.getElementById("defaultCanvas0"));
+    capturer.capture(document.getElementById('defaultCanvas0'));
     if (sortersFinished.every(finished => finished)) {
       stopRecording();
       noLoop();
