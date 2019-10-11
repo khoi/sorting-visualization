@@ -213,8 +213,8 @@ function* shellSort(values) {
 }
 
 function* radixSortLSD(array) {
-  let values = array.slice(0, array.length);
-  let counter = Array.from({ length: 10 }).fill(0, 0);
+  let values = [...array];
+  let counter = new Array(10).fill(0);
   let n = values.length;
   let radix = 1;
   let max = Math.max(...array);
@@ -233,7 +233,7 @@ function* radixSortLSD(array) {
       yield;
     }
 
-    values = array.slice(0, array.length);
+    values = [...array];
     counter.fill(0, 0);
 
     radix *= 10;

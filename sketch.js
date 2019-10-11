@@ -15,7 +15,7 @@ const SORT_CLASSES = {
   mergeSort: mergeSort,
   heapSort: heapSort,
   shellSort: shellSort,
-  'radixSort (least significant digit)': radixSortLSD,
+  'radixSort (LSD)': radixSortLSD,
 };
 
 let N;
