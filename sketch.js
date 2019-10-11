@@ -1,6 +1,5 @@
 const FRAME_RATE = 60;
 const CONTROL_HEIGHT = 20;
-const TILE_WIDTH = 20;
 const DRAW_FRAMERATE = false;
 const DEFAULT_ALGO = "mergeSort";
 const GITHUB_URL = "https://github.com/khoi/sorting-visualization";
@@ -18,6 +17,9 @@ const SORT_CLASSES = {
 let N;
 let M;
 
+let TILE_WIDTH;
+let TILE_HEIGHT;
+
 let values;
 let sorters;
 let sortersFinished;
@@ -26,13 +28,20 @@ let isRecording = false;
 let sel;
 let sourceCodeButton;
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  TILE_WIDTH = windowWidth/70;
+  TILE_HEIGHT = windowHeight/20;
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   colorMode(HSL, 360, 100, 100);
   frameRate(FRAME_RATE);
 
   setupUI(DEFAULT_ALGO);
-
+  TILE_WIDTH = windowWidth/70;
+  TILE_HEIGHT = windowHeight/30;
   N = Math.floor(width / TILE_WIDTH);
   M = Math.floor(height / TILE_WIDTH);
 
@@ -90,7 +99,7 @@ function draw() {
       let c = color(map(values[i][j], 0, N, 0, 360), 100, 50);
       stroke(c);
       fill(c);
-      rect(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+      rect(j * TILE_WIDTH, i * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
     }
   }
 
