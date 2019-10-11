@@ -14,7 +14,8 @@ const SORT_CLASSES = {
   bogoSort: bogoSort,
   mergeSort: mergeSort,
   heapSort: heapSort,
-  shellSort: shellSort
+  shellSort: shellSort,
+  combSort: combSort
 };
 
 let N;
