@@ -1,0 +1,41 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "NghiaTranUIT",
+      "name": "Nghia Tran",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/5878421?v=4",
+      "profile": "https://nghiatran.me",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jasbindar-singh",
+      "name": "Jasbindar Singh",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/46398377?v=4",
+      "profile": "https://github.com/jasbindar-singh",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jdhrnndz",
+      "name": "JD",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5461644?v=4",
+      "profile": "http://jdhrnndz.github.io",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "sorting-visualization",
+  "projectOwner": "khoi",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
