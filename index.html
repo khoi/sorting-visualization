@@ -5,11 +5,74 @@
     <script src="p5.dom.min.js"></script>
     <script src="CCapture.all.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.getmdl.io/1.3.0/material.teal-green.min.css"
+    />
     <meta charset="utf-8" />
     <title>Sorting Algorithms Visualization</title>
   </head>
   <body>
+    <div class="mdl-layout mdl-js-layout">
+      <header
+        class="mdl-layout__header mdl-color--blue-grey-900 mdl-layout__header--center-aligned"
+      >
+        <div class="mdl-layout__header-row">
+          <!-- Controls -->
+          <nav class="mdl-navigation">
+            <div id="sort_algo" class="mdl-navigation-item">
+              <!-- Sorting algorithm dropdown -->
+              <div
+                class="mdl-button mdl-js-button mdl-button--raised mdl-color--grey-100 mdl-js-ripple-effect mdl-color-text--primary mdl-select mdl-select__fix-height "
+              >
+                <span id="select-value" value=""></span>
+                <i
+                  class="mdl-icon-toggle__label material-icons mdl-color-text--primary"
+                  style="float: right;margin-top: 2px;margin-right:-14px;transform: rotate(0);transition: transform 0.3s;"
+                  >keyboard_arrow_down</i
+                >
+              </div>
+              <ul
+                for="sort_algo"
+                class="mdl-menu mdl-js-menu mdl-menu--bottom-left"
+              ></ul>
+            </div>
+            <div id="seed-types" class="mdl-navigation-item">
+              <!-- Initial data radio button -->
+            </div>
+            <div class="mdl-navigation-item">
+              <!-- Start / Stop button -->
+              <button
+                class="mdl-button mdl-js-button mdl-button--raised mdl-color--grey-100 mdl-js-ripple-effect"
+                id="control__start-stop"
+                data-action="stop"
+              >
+                <i
+                  class="mdl-icon-toggle__label material-icons mdl-color-text--primary"
+                  >stop</i
+                >
+              </button>
+            </div>
+          </nav>
+        </div>
+      </header>
+      <main class="mdl-layout__content">
+        <div id="visualization"></div>
+      </main>
+    </div>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script src="algorithms.js"></script>
+    <script src="constants.js"></script>
     <script src="sketch.js"></script>
+    <script src="controls.js"></script>
   </body>
 </html>

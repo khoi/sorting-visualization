@@ -1,23 +1,4 @@
-const FRAME_RATE = 60;
-const CONTROL_HEIGHT = 20;
-const TILE_WIDTH = 20;
-const DRAW_FRAMERATE = false;
-const DEFAULT_ALGO = 'mergeSort';
-const GITHUB_URL = 'https://github.com/khoi/sorting-visualization';
-
-const SORT_CLASSES = {
-  bubble: bubbleSort,
-  insertion: insertionSort,
-  selection: selectionSort,
-  'quickSort (hoare)': quickSortHoare,
-  'quickSort (lomuto)': quickSortLomuto,
-  bogoSort: bogoSort,
-  mergeSort: mergeSort,
-  heapSort: heapSort,
-  shellSort: shellSort,
-  'radixSort (LSD)': radixSortLSD,
-  combSort: combSort,
-};
+'use strict';
 
 let N;
 let M;
@@ -27,58 +8,41 @@ let sorters;
 let sortersFinished;
 let capturer = new CCapture({ format: 'png', framerate: FRAME_RATE });
 let isRecording = false;
-let sel;
-let sourceCodeButton;
+let sortedSeed, reverseSeed, partialSortedSeed;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  const headerHeight = document.getElementsByClassName('mdl-layout__header')[0]
+    .offsetHeight;
+  const canvas = createCanvas(windowWidth, windowHeight - headerHeight);
+  canvas.parent('visualization');
   colorMode(HSL, 360, 100, 100);
   frameRate(FRAME_RATE);
 
-  setupUI(DEFAULT_ALGO);
-
-  N = Math.floor(width / TILE_WIDTH);
-  M = Math.floor(height / TILE_WIDTH);
-
+  N = Math.floor(width / TILE_SIZE);
+  M = Math.floor(height / TILE_SIZE);
   values = new Array(M);
   sorters = new Array(M);
 
-  startSorting(DEFAULT_ALGO);
+  let number = 0;
+  sortedSeed = Array.from(Array(N), item => number++);
+
+  startSorting();
 
   textSize(20);
   textStyle(BOLD);
   textAlign(RIGHT);
 }
 
-function setupUI(initialValue) {
-  sel = createSelect();
-  sel.position(10, 10);
-  Object.keys(SORT_CLASSES).forEach(k => {
-    sel.option(k);
-  });
-  sel.value(initialValue);
-  sel.changed(() => startSorting(sel.value()));
-
-  sourceCodeButton = createButton('Learn More');
-  sourceCodeButton.position(sel.elt.offsetWidth + 16, 10);
-  sourceCodeButton.mousePressed(redirectToGithub);
-}
-
-function redirectToGithub() {
-  window.open(GITHUB_URL, '_blank');
-}
-
-function startSorting(algorithm) {
+function startSorting(
+  algorithm = DEFAULT_ALGO,
+  arrangement = DEFAULT_ARRANGEMENT
+) {
   values = new Array(M);
   sorters = new Array(M);
   sortersFinished = new Array(M);
 
   for (let i = 0; i < M; i++) {
-    values[i] = new Array(N);
-    for (let j = 0; j < N; j++) {
-      values[i][j] = j;
-    }
-    shuffle(values[i], true);
+    values[i] = INITIAL_DATA[arrangement](sortedSeed);
     sorters[i] = SORT_CLASSES[algorithm](values[i]);
     sortersFinished[i] = false;
   }
@@ -94,8 +58,12 @@ function draw() {
       let c = color(map(values[i][j], 0, N, 0, 360), 100, 50);
       stroke(c);
       fill(c);
-      rect(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+      square(j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE);
     }
+  }
+
+  if (sortersFinished.every(finished => finished)) {
+    stopAnimation(true);
   }
 
   if (isRecording) {
