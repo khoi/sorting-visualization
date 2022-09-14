@@ -1,6 +1,6 @@
 const FRAME_RATE = 60;
 const CONTROL_HEIGHT = 20;
-const TILE_WIDTH = 20;
+const TILE_WIDTH = 10;
 const DRAW_FRAMERATE = false;
 const DEFAULT_ALGO = 'mergeSort';
 const GITHUB_URL = 'https://github.com/khoi/sorting-visualization';
